@@ -1,50 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:local="clr-namespace:zh2_2023_2"
              x:Class="zh2_2023_2.MainPage">
-    <ContentPage.Resources>
-        <local:DidClimbToColorConverter x:Key="DidClimbToColorConverter"/>
-    </ContentPage.Resources>
-    <ScrollView>
 
+    <ScrollView>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-
-            <CollectionView Grid.Column="0" ItemsSource="{Binding Mountains}" SelectionMode="Single" SelectedItem="{Binding SelectedMountain}">
+            <CollectionView SelectionMode="Single" Grid.Column="0" ItemsSource="{Binding TodoList}" SelectedItem="{Binding SelectedTodo}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Orientation="Horizontal">
-                            <Label Text="{Binding Name}"
-                                   TextColor="{Binding Climbed, Converter={StaticResource DidClimbToColorConverter}}"/>
+                        <StackLayout>
+                            <Label Text="{Binding Name}"/>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <StackLayout Orientation="Vertical" Grid.Column="1" Spacing="10">
-                <StackLayout Orientation="Horizontal" Padding="10">
-                    <Label Text="Nev:"/>
-                    <Label Text="{Binding SelectedMountain.Name}"/>
+            <StackLayout Grid.Column="1">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Name; "/>
+                    <Label Text="{Binding SelectedTodo.Name}"/>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" Padding="10">
-                    <Label Text="Magassag:"/>
-                    <Label Text="{Binding  SelectedMountain.Height}"/>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Todo: "/>
+                    <Entry WidthRequest="100" HeightRequest="50" Text="{Binding SelectedTodo.Description}"/>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" Padding="10">
-                    <Label Text="Megmasztam:"/>
-                    <CheckBox IsChecked="{Binding SelectedMountain.Climbed}"/>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Done:"/>
+                    <CheckBox IsChecked="{Binding SelectedTodo.IsDone}"/>
                 </StackLayout>
-                <StackLayout Padding="20">
-                    <Button Text="Megmaszasok torlese" Command="{Binding ClearClimbedCommand}"/>
+                <StackLayout Orientation="Horizontal">
+                    <Button Text="Count As" Command="{Binding CountAsCommand}"/>
+                    <Label Text="{Binding CountedAd}"/>
                 </StackLayout>
             </StackLayout>
-            
         </Grid>
+
         
     </ScrollView>
 

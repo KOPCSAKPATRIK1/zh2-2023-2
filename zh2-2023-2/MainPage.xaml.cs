@@ -5,41 +5,47 @@ namespace zh2_2023_2
 {
     public partial class MainPage : ContentPage
     {
-        public ObservableCollection<Mountain> Mountains { get; set; }
-        public ICommand ClearClimbedCommand { get; }
-        private Mountain _selectedMountain;
-        public Mountain SelectedMountain
+        public ObservableCollection<Todo> TodoList { get; set; }
+        public ICommand CountAsCommand { get; set; }
+        private Todo _selectedTodo;
+        public Todo SelectedTodo
         {
-            get => _selectedMountain; set
+            get => _selectedTodo; 
+            set
             {
-                if (_selectedMountain != value)
-                {
-                    _selectedMountain = value;
-                    OnPropertyChanged();
-                }
+                _selectedTodo = value;
+                OnPropertyChanged();
             }
         }
-
+        private int _countedAd;
+        public int CountedAd
+        {
+            get => _countedAd; set
+            {
+                _countedAd = value;
+                OnPropertyChanged();
+            }
+        }
         public MainPage()
         {
             InitializeComponent();
-            Mountains = new ObservableCollection<Mountain>
+            TodoList = new ObservableCollection<Todo>
             {
-                new Mountain { Name = "János-hegy", Height = 527 },
-                new Mountain { Name = "Kis-Hárs-hegy", Height = 362 },
-                new Mountain { Name = "Nagy-Hárs-hegy", Height = 454 },
-                new Mountain { Name = "Hármashatár-hegy", Height = 495 }
+                new Todo{Name="Branch letrehozasa", Description="asd", IsDone=false},
+                new Todo{Name="Feladatok feltoltese", Description="asd", IsDone=false},
+                new Todo{Name="Pull request letregozasa", Description="asd", IsDone=false},
+                new Todo{Name="Javitas a varokasra", Description="asd", IsDone=false}
             };
-            ClearClimbedCommand = new Command(ClearClimbed);
+            CountAsCommand = new Command(async () => await CountAsAsync());
             BindingContext = this;
         }
 
-        private void ClearClimbed()
+        private async Task CountAsAsync()
         {
-            foreach (Mountain m in Mountains)
+            await Task.Run(() =>
             {
-                m.Climbed = false;
-            }
+                CountedAd = TodoList.Sum(t => t.Description.Count(d => d == 'A' || d == 'a'));
+            });
         }
     }
 
